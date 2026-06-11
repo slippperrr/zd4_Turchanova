@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Calculyator_Trchanova.Views.CurrencyPage"
+             Title="Курсы валют"
+             BackgroundColor="#F0F8F0">
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+
+            <!-- Заголовок страницы -->
+            <Label Text="Курсы валют" 
+                   FontSize="28" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="#2E7D32"
+                   Margin="0,0,0,20"/>
+
+            <!-- Блок выбора даты -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="15" 
+                   Padding="20" 
+                   HasShadow="True">
+                <StackLayout Spacing="15">
+
+                    <Label Text="Выберите дату" 
+                           FontSize="14" 
+                           TextColor="#2E7D32"
+                           FontAttributes="Bold"/>
+
+                    <!-- Датапикер для выбора даты -->
+                    <DatePicker Date="{Binding SelectedDate, Mode=TwoWay}"
+                                TextColor="#2E7D32"
+                                BackgroundColor="#F5F5F5"/>
+
+                    <!-- Кнопка загрузки курсов -->
+                    <Button Text="Получить курсы" 
+                            Command="{Binding LoadRatesCommand}"
+                            BackgroundColor="#4CAF50"
+                            TextColor="White"
+                            CornerRadius="8"/>
+
+                </StackLayout>
+            </Frame>
+
+            <!-- Блок отображения курсов -->
+            <Frame BackgroundColor="#E8F5E9" 
+                   CornerRadius="15" 
+                   Padding="20" 
+                   HasShadow="True">
+                <StackLayout Spacing="15">
+
+                    <Label Text="АКТУАЛЬНЫЕ КУРСЫ" 
+                           FontSize="18" 
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#1B5E20"/>
+
+                    <!-- Разделитель -->
+                    <BoxView HeightRequest="1" BackgroundColor="#C8E6C9"/>
+
+                    <!-- Курс USD -->
+                    <StackLayout>
+                        <Label Text="Доллар США (USD)" 
+                               FontSize="16" 
+                               TextColor="#2E7D32"/>
+                        <Label Text="{Binding USDRate}" 
+                               FontSize="24" 
+                               FontAttributes="Bold"
+                               TextColor="#4CAF50"/>
+                    </StackLayout>
+
+                    <!-- Курс EUR -->
+                    <StackLayout>
+                        <Label Text="Евро (EUR)" 
+                               FontSize="16" 
+                               TextColor="#2E7D32"/>
+                        <Label Text="{Binding EURRate}" 
+                               FontSize="24" 
+                               FontAttributes="Bold"
+                               TextColor="#4CAF50"/>
+                    </StackLayout>
+
+                    <!-- Дата курсов -->
+                    <Label Text="{Binding DateDisplay}" 
+                           FontSize="14"
+                           TextColor="#6D6D6D"
+                           HorizontalOptions="Center"/>
+
+                    <!-- Индикатор загрузки -->
+                    <ActivityIndicator IsVisible="{Binding IsLoading}" 
+                                       IsRunning="{Binding IsLoading}"
+                                       Color="#4CAF50"/>
+
+                </StackLayout>
+            </Frame>
+
+            <!-- Информация об источнике данных -->
+            <Label Text="Центробанк РФ" 
+                   FontSize="12"
+                   TextColor="#6D6D6D"
+                   HorizontalOptions="Center"
+                   Margin="0,10,0,0"/>
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

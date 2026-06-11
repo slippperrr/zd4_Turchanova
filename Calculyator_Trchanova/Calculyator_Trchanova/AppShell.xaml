@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:Calculyator_Trchanova.Views"
+       x:Class="Calculyator_Trchanova.AppShell">
+
+    <TabBar>
+        <Tab Title="Кредитный калькулятор" Icon="calculator.png">
+            <ShellContent ContentTemplate="{DataTemplate views:CreditPage}"/>
+        </Tab>
+
+        <Tab Title="Курсы валют" Icon="currency.png">
+            <ShellContent ContentTemplate="{DataTemplate views:CurrencyPage}"/>
+        </Tab>
+    </TabBar>
+
+</Shell>

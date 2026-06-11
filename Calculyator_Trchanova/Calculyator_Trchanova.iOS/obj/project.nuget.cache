@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "MZhv/TPtB2M=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\st310-09\\Desktop\\Турчанова\\Calculyator_Trchanova\\Calculyator_Trchanova\\Calculyator_Trchanova.iOS\\Calculyator_Trchanova.iOS.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\st310-09\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
+    "C:\\Users\\st310-09\\.nuget\\packages\\xamarin.essentials\\1.7.0\\xamarin.essentials.1.7.0.nupkg.sha512",
+    "C:\\Users\\st310-09\\.nuget\\packages\\xamarin.forms\\5.0.0.2196\\xamarin.forms.5.0.0.2196.nupkg.sha512"
+  ],
+  "logs": []
+}

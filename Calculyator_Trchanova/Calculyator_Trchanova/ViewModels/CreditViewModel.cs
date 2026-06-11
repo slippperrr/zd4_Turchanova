@@ -1,0 +1,245 @@
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using Calculyator_Trchanova.Services;
+
+namespace Calculyator_Trchanova.ViewModels
+{
+    // ViewModel для страницы кредитного калькулятора
+    public class CreditViewModel :BaseViewModel
+    {
+        private CreditService _creditService; // Сервис расчета кредита
+
+        // Приватные поля для свойств
+        private decimal _amount;
+        private int _months;
+        private decimal _interestRate = 10;
+        private string _selectedPaymentType;
+        private int _graceMonths = 3;
+        private bool _showGracePeriodSettings;
+        private string _monthlyPaymentDisplay = "--";
+        private string _totalAmountDisplay = "--";
+        private string _overpaymentDisplay = "--";
+        private string _gracePeriodInfo = "--";
+        private string _infoMessage = "Выберите тип платежа";
+
+        // Коллекция типов платежей для Picker
+        public ObservableCollection<string> PaymentTypes { get; set; }
+
+        // Конструктор ViewModel
+        public CreditViewModel ()
+        {
+            _creditService = new CreditService();
+            PaymentTypes = new ObservableCollection<string>
+            {
+                "Аннуитетный",
+                "Дифференцированный",
+                "Льготный период"
+            };
+            SelectedPaymentType = "Аннуитетный";
+            ShowGracePeriodSettings = false;
+
+            // Подписка на событие изменения свойств
+            PropertyChanged += OnPropertyChanged;
+        }
+
+        // Обработчик изменения свойств для автоматического пересчета
+        private void OnPropertyChanged (object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Amount) ||
+                e.PropertyName == nameof(Months) ||
+                e.PropertyName == nameof(InterestRate) ||
+                e.PropertyName == nameof(SelectedPaymentType) ||
+                e.PropertyName == nameof(GraceMonths))
+            {
+                CalculateCredit();
+            }
+        }
+
+        // Свойство суммы кредита
+        public decimal Amount
+        {
+            get => _amount;
+            set => SetProperty(ref _amount, value);
+        }
+
+        // Свойство срока кредита
+        public int Months
+        {
+            get => _months;
+            set => SetProperty(ref _months, value);
+        }
+
+        // Свойство процентной ставки
+        public decimal InterestRate
+        {
+            get => _interestRate;
+            set
+            {
+                SetProperty(ref _interestRate, value);
+                OnPropertyChanged(nameof(InterestRateText));
+            }
+        }
+
+        // Текст для отображения процентной ставки
+        public string InterestRateText => $"{InterestRate:F1}%";
+
+        // Свойство выбранного типа платежа
+        public string SelectedPaymentType
+        {
+            get => _selectedPaymentType;
+            set
+            {
+                SetProperty(ref _selectedPaymentType, value);
+                // Показываем настройки льготного периода только при выборе соответствующего типа
+                ShowGracePeriodSettings = (value == "Льготный период");
+                OnPropertyChanged(nameof(ShowGracePeriodSettings));
+            }
+        }
+
+        // Свойство количества месяцев льготного периода
+        public int GraceMonths
+        {
+            get => _graceMonths;
+            set
+            {
+                if (value >= 1 && value < _months)
+                {
+                    SetProperty(ref _graceMonths, value);
+                    OnPropertyChanged(nameof(GraceMonthsText));
+                }
+            }
+        }
+
+        // Текст для отображения льготного периода
+        public string GraceMonthsText => $"{GraceMonths} мес.";
+
+        // Флаг отображения настроек льготного периода
+        public bool ShowGracePeriodSettings
+        {
+            get => _showGracePeriodSettings;
+            set => SetProperty(ref _showGracePeriodSettings, value);
+        }
+
+        // Свойство для отображения ежемесячного платежа
+        public string MonthlyPaymentDisplay
+        {
+            get => _monthlyPaymentDisplay;
+            set => SetProperty(ref _monthlyPaymentDisplay, value);
+        }
+
+        // Свойство для отображения общей суммы
+        public string TotalAmountDisplay
+        {
+            get => _totalAmountDisplay;
+            set => SetProperty(ref _totalAmountDisplay, value);
+        }
+
+        // Свойство для отображения переплаты
+        public string OverpaymentDisplay
+        {
+            get => _overpaymentDisplay;
+            set => SetProperty(ref _overpaymentDisplay, value);
+        }
+
+        // Свойство для отображения информации о льготном периоде
+        public string GracePeriodInfo
+        {
+            get => _gracePeriodInfo;
+            set => SetProperty(ref _gracePeriodInfo, value);
+        }
+
+        // Свойство для информационного сообщения
+        public string InfoMessage
+        {
+            get => _infoMessage;
+            set => SetProperty(ref _infoMessage, value);
+        }
+
+        // Метод расчета кредита
+        private void CalculateCredit ()
+        {
+            try
+            {
+                // Проверка валидности входных данных
+                if (_amount <= 0 || _months <= 0)
+                {
+                    ClearResults();
+                    return;
+                }
+
+                // Расчет для льготного периода
+                if (SelectedPaymentType == "Льготный период")
+                {
+                    if (_graceMonths <= 0 || _graceMonths >= _months)
+                    {
+                        GracePeriodInfo = "Льготный период должен быть от 1 до " + (_months - 1) + " месяцев";
+                        MonthlyPaymentDisplay = "--";
+                        TotalAmountDisplay = "--";
+                        OverpaymentDisplay = "--";
+                        InfoMessage = "Настройте льготный период";
+                        return;
+                    }
+
+                    var result = _creditService.CalculateWithGracePeriod(_amount, _months, _interestRate, _graceMonths);
+                    MonthlyPaymentDisplay = $"{result.MonthlyPayment:N2} руб.";
+                    TotalAmountDisplay = $"{result.TotalAmount:N2} руб.";
+                    OverpaymentDisplay = $"{result.Overpayment:N2} руб.";
+                    GracePeriodInfo = $"Льготный период: {result.GracePeriodMonths} мес. | Платеж в льготный период: {result.GracePeriodPayment:N2} руб. | После льготного периода: {result.FullPaymentAfterGrace:N2} руб.";
+                    InfoMessage = "В льготный период платятся только проценты, тело кредита не уменьшается";
+                }
+                // Расчет для аннуитетного платежа
+                else if (SelectedPaymentType == "Аннуитетный")
+                {
+                    var result = _creditService.CalculateAnnuity(_amount, _months, _interestRate);
+                    MonthlyPaymentDisplay = $"{result.MonthlyPayment:N2} руб.";
+                    TotalAmountDisplay = $"{result.TotalAmount:N2} руб.";
+                    OverpaymentDisplay = $"{result.Overpayment:N2} руб.";
+                    GracePeriodInfo = "--";
+                    InfoMessage = "Аннуитетный платеж - равными долями весь срок";
+                }
+                // Расчет для дифференцированного платежа
+                else if (SelectedPaymentType == "Дифференцированный")
+                {
+                    MonthlyPaymentDisplay = "--";
+                    InfoMessage = "Дифференцированный платеж - сумма платежа уменьшается каждый месяц";
+
+                    decimal monthlyPrincipal = _amount / _months;
+                    decimal totalInterest = 0;
+                    decimal firstPayment = 0;
+                    decimal lastPayment = 0;
+
+                    for (int i = 1; i <= _months; i++)
+                    {
+                        decimal remaining = _amount - monthlyPrincipal * (i - 1);
+                        decimal interest = remaining * (_interestRate / 100 / 12);
+                        totalInterest += interest;
+
+                        if (i == 1)
+                            firstPayment = monthlyPrincipal + interest;
+                        if (i == _months)
+                            lastPayment = monthlyPrincipal + interest;
+                    }
+
+                    decimal totalAmount = _amount + totalInterest;
+                    decimal overpayment = totalInterest;
+
+                    TotalAmountDisplay = $"{totalAmount:N2} руб.";
+                    OverpaymentDisplay = $"{overpayment:N2} руб.";
+                    GracePeriodInfo = $"Первый платеж: {firstPayment:N2} руб. | Последний платеж: {lastPayment:N2} руб.";
+                }
+            } catch
+            {
+                ClearResults();
+            }
+        }
+
+        // Метод очистки результатов
+        private void ClearResults ()
+        {
+            MonthlyPaymentDisplay = "--";
+            TotalAmountDisplay = "--";
+            OverpaymentDisplay = "--";
+            GracePeriodInfo = "--";
+        }
+    }
+}

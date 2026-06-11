@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Calculyator_Trchanova.Views.CreditPage"
+             Title="Кредитный калькулятор"
+             BackgroundColor="#F0F8F0">
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+
+            <!-- Заголовок страницы -->
+            <Label Text="Кредитный калькулятор" 
+                   FontSize="28" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="#2E7D32"
+                   Margin="0,0,0,20"/>
+
+            <!-- Блок ввода данных -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="15" 
+                   Padding="20" 
+                   HasShadow="True">
+                <StackLayout Spacing="15">
+
+                    <!-- Поле ввода суммы кредита -->
+                    <Label Text="Сумма кредита" 
+                           FontSize="14" 
+                           TextColor="#2E7D32"
+                           FontAttributes="Bold"/>
+                    <Entry Text="{Binding Amount, Mode=TwoWay}" 
+                           Keyboard="Numeric"
+                           Placeholder="Введите сумму в рублях"
+                           FontSize="16"
+                           BackgroundColor="#F5F5F5"/>
+
+                    <!-- Поле ввода срока кредита -->
+                    <Label Text="Срок кредита (месяцев)" 
+                           FontSize="14" 
+                           TextColor="#2E7D32"
+                           FontAttributes="Bold"/>
+                    <Entry Text="{Binding Months, Mode=TwoWay}" 
+                           Keyboard="Numeric"
+                           Placeholder="Введите количество месяцев"
+                           FontSize="16"
+                           BackgroundColor="#F5F5F5"/>
+
+                    <!-- Выбор типа платежа -->
+                    <Label Text="Тип платежа" 
+                           FontSize="14" 
+                           TextColor="#2E7D32"
+                           FontAttributes="Bold"/>
+                    <Picker ItemsSource="{Binding PaymentTypes}"
+                            SelectedItem="{Binding SelectedPaymentType, Mode=TwoWay}"
+                            Title="Выберите тип платежа"
+                            BackgroundColor="#F5F5F5"/>
+
+                    <!-- Настройки льготного периода -->
+                    <StackLayout IsVisible="{Binding ShowGracePeriodSettings}">
+                        <Label Text="Льготный период (месяцев)" 
+                               FontSize="14" 
+                               TextColor="#2E7D32"
+                               FontAttributes="Bold"/>
+                        <Label Text="{Binding GraceMonthsText}" 
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               TextColor="#FF9800"/>
+                        <Slider Minimum="1" 
+                                Maximum="{Binding Months, Mode=OneWay}" 
+                                Value="{Binding GraceMonths, Mode=TwoWay}"
+                                MinimumTrackColor="#FF9800"
+                                MaximumTrackColor="#FFF3E0"
+                                ThumbColor="#FF9800"/>
+                        <Label Text="В льготный период платятся только проценты, тело кредита не уменьшается" 
+                               FontSize="11"
+                               TextColor="#6D6D6D"
+                               HorizontalOptions="Center"/>
+                    </StackLayout>
+
+                    <!-- Слайдер процентной ставки -->
+                    <Label Text="Процентная ставка" 
+                           FontSize="14" 
+                           TextColor="#2E7D32"
+                           FontAttributes="Bold"/>
+                    <Label Text="{Binding InterestRateText}" 
+                           FontSize="16"
+                           HorizontalOptions="Center"
+                           TextColor="#4CAF50"/>
+                    <Slider Minimum="0" 
+                            Maximum="50" 
+                            Value="{Binding InterestRate, Mode=TwoWay}"
+                            MinimumTrackColor="#4CAF50"
+                            MaximumTrackColor="#C8E6C9"
+                            ThumbColor="#2E7D32"/>
+
+                </StackLayout>
+            </Frame>
+
+            <!-- Блок результатов -->
+            <Frame BackgroundColor="#E8F5E9" 
+                   CornerRadius="15" 
+                   Padding="20" 
+                   HasShadow="True">
+                <StackLayout Spacing="15">
+
+                    <Label Text="РЕЗУЛЬТАТЫ" 
+                           FontSize="18" 
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#1B5E20"/>
+
+                    <!-- Разделитель -->
+                    <BoxView HeightRequest="1" BackgroundColor="#C8E6C9"/>
+
+                    <!-- Ежемесячный платеж -->
+                    <StackLayout>
+                        <Label Text="Ежемесячный платеж (после льготного периода)" 
+                               FontSize="14" 
+                               TextColor="#2E7D32"
+                               IsVisible="{Binding ShowGracePeriodSettings}"/>
+                        <Label Text="Ежемесячный платеж" 
+                               FontSize="14" 
+                               TextColor="#2E7D32"
+                               IsVisible="{Binding ShowGracePeriodSettings, Converter={StaticResource InvertedBoolConverter}}"/>
+                        <Label Text="{Binding MonthlyPaymentDisplay}" 
+                               FontSize="24" 
+                               FontAttributes="Bold"
+                               TextColor="#4CAF50"/>
+                    </StackLayout>
+
+                    <!-- Информация о льготном периоде -->
+                    <StackLayout IsVisible="{Binding ShowGracePeriodSettings}">
+                        <BoxView HeightRequest="1" BackgroundColor="#C8E6C9"/>
+                        <Label Text="{Binding GracePeriodInfo}" 
+                               FontSize="12"
+                               TextColor="#FF9800"
+                               HorizontalOptions="Center"/>
+                    </StackLayout>
+
+                    <!-- Общая сумма -->
+                    <StackLayout>
+                        <Label Text="Общая сумма выплат" 
+                               FontSize="14" 
+                               TextColor="#2E7D32"/>
+                        <Label Text="{Binding TotalAmountDisplay}" 
+                               FontSize="20" 
+                               FontAttributes="Bold"
+                               TextColor="#FF9800"/>
+                    </StackLayout>
+
+                    <!-- Переплата -->
+                    <StackLayout>
+                        <Label Text="Переплата по кредиту" 
+                               FontSize="14" 
+                               TextColor="#2E7D32"/>
+                        <Label Text="{Binding OverpaymentDisplay}" 
+                               FontSize="20" 
+                               FontAttributes="Bold"
+                               TextColor="#F44336"/>
+                    </StackLayout>
+
+                </StackLayout>
+            </Frame>
+
+            <!-- Информационное сообщение -->
+            <Label Text="{Binding InfoMessage}" 
+                   FontSize="12"
+                   TextColor="#6D6D6D"
+                   HorizontalOptions="Center"
+                   Margin="0,10,0,0"/>
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
