@@ -2,105 +2,39 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Calculyator_Trchanova.Views.CurrencyPage"
-             Title="Курсы валют"
-             BackgroundColor="#F0F8F0">
+             Title="Курсы валют">
 
     <ScrollView>
         <StackLayout Padding="20" Spacing="15">
 
-            <!-- Заголовок страницы -->
-            <Label Text="Курсы валют" 
-                   FontSize="28" 
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   TextColor="#2E7D32"
-                   Margin="0,0,0,20"/>
+            <Label Text="Курсы валют" StyleClass="header-label" />
 
-            <!-- Блок выбора даты -->
-            <Frame BackgroundColor="White" 
-                   CornerRadius="15" 
-                   Padding="20" 
-                   HasShadow="True">
+            <Frame>
                 <StackLayout Spacing="15">
-
-                    <Label Text="Выберите дату" 
-                           FontSize="14" 
-                           TextColor="#2E7D32"
-                           FontAttributes="Bold"/>
-
-                    <!-- Датапикер для выбора даты -->
-                    <DatePicker Date="{Binding SelectedDate, Mode=TwoWay}"
-                                TextColor="#2E7D32"
-                                BackgroundColor="#F5F5F5"/>
-
-                    <!-- Кнопка загрузки курсов -->
-                    <Button Text="Получить курсы" 
-                            Command="{Binding LoadRatesCommand}"
-                            BackgroundColor="#4CAF50"
-                            TextColor="White"
-                            CornerRadius="8"/>
-
+                    <Label Text="Выберите дату" FontAttributes="Bold" />
+                    <DatePicker Date="{Binding SelectedDate, Mode=TwoWay}" />
+                    <Button Text="Получить курсы" Command="{Binding LoadRatesCommand}" />
                 </StackLayout>
             </Frame>
 
-            <!-- Блок отображения курсов -->
-            <Frame BackgroundColor="#E8F5E9" 
-                   CornerRadius="15" 
-                   Padding="20" 
-                   HasShadow="True">
+            <Frame BackgroundColor="#E8F5E9">
                 <StackLayout Spacing="15">
+                    <Label Text="АКТУАЛЬНЫЕ КУРСЫ" FontAttributes="Bold" HorizontalOptions="Center" TextColor="#1B5E20" />
+                    <BoxView HeightRequest="1" BackgroundColor="#C8E6C9" />
 
-                    <Label Text="АКТУАЛЬНЫЕ КУРСЫ" 
-                           FontSize="18" 
-                           FontAttributes="Bold"
-                           HorizontalOptions="Center"
-                           TextColor="#1B5E20"/>
+                    <Label Text="Доллар США (USD)" />
+                    <Label Text="{Binding USDRate}" StyleClass="result-label" />
 
-                    <!-- Разделитель -->
-                    <BoxView HeightRequest="1" BackgroundColor="#C8E6C9"/>
+                    <Label Text="Евро (EUR)" />
+                    <Label Text="{Binding EURRate}" StyleClass="result-label" />
 
-                    <!-- Курс USD -->
-                    <StackLayout>
-                        <Label Text="Доллар США (USD)" 
-                               FontSize="16" 
-                               TextColor="#2E7D32"/>
-                        <Label Text="{Binding USDRate}" 
-                               FontSize="24" 
-                               FontAttributes="Bold"
-                               TextColor="#4CAF50"/>
-                    </StackLayout>
+                    <Label Text="{Binding DateDisplay}" FontSize="14" TextColor="Gray" HorizontalOptions="Center" />
 
-                    <!-- Курс EUR -->
-                    <StackLayout>
-                        <Label Text="Евро (EUR)" 
-                               FontSize="16" 
-                               TextColor="#2E7D32"/>
-                        <Label Text="{Binding EURRate}" 
-                               FontSize="24" 
-                               FontAttributes="Bold"
-                               TextColor="#4CAF50"/>
-                    </StackLayout>
-
-                    <!-- Дата курсов -->
-                    <Label Text="{Binding DateDisplay}" 
-                           FontSize="14"
-                           TextColor="#6D6D6D"
-                           HorizontalOptions="Center"/>
-
-                    <!-- Индикатор загрузки -->
-                    <ActivityIndicator IsVisible="{Binding IsLoading}" 
-                                       IsRunning="{Binding IsLoading}"
-                                       Color="#4CAF50"/>
-
+                    <ActivityIndicator IsVisible="{Binding IsLoading}" IsRunning="{Binding IsLoading}" Color="#4CAF50" />
                 </StackLayout>
             </Frame>
 
-            <!-- Информация об источнике данных -->
-            <Label Text="Центробанк РФ" 
-                   FontSize="12"
-                   TextColor="#6D6D6D"
-                   HorizontalOptions="Center"
-                   Margin="0,10,0,0"/>
+            <Label Text="Центробанк РФ" FontSize="12" TextColor="#6D6D6D" HorizontalOptions="Center" />
 
         </StackLayout>
     </ScrollView>

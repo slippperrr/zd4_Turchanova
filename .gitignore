@@ -1,0 +1,17 @@
+bin/
+obj/
+.vs/
+*.user
+*.suo
+packages/
+*.exe
+*.dll
+*.pdb
+*.cache
+*.tmp
+Debug/
+Release/
+*.userprefs
+*.pidb
+*.log
+*.vsidx

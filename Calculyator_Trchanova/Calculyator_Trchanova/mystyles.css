@@ -1,0 +1,52 @@
+/* экран WELCOME */
+
+.welcome-title {
+    color: #ffffff;
+    font-size: 26;
+    font-weight: bold;
+    text-align: center;
+}
+
+.login-entry {
+    background-color: #f0f0f0;
+    color: #2c3e50;
+    height: 55;
+}
+
+.signin-button {
+    background-color: #3498db;
+    color: #ffffff;
+    font-size: 18;
+    font-weight: bold;
+    height: 55;
+}
+
+/* стили калькулятора */
+
+contentpage {
+    background-color: #ecf0f1;
+}
+
+label {
+    font-size: 15;
+    color: #2c3e50;
+}
+
+.header-label {
+    font-size: 20;
+    font-weight: bold;
+    color: #2980b9;
+    text-align: center;
+}
+
+.result-label {
+    font-size: 18;
+    font-weight: 600;
+    color: #e67e22;
+}
+
+entry, picker {
+    background-color: #ffffff;
+    color: #34495e;
+    height: 50;
+}

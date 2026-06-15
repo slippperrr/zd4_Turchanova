@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:views="clr-namespace:Calculyator_Trchanova.Views"
+            x:Class="Calculyator_Trchanova.Views.MainTabbedPage">
+
+    <views:CreditPage Title="Кредитный калькулятор" />
+    <views:CurrencyPage Title="Курсы валют" />
+
+</TabbedPage>

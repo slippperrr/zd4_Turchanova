@@ -2,60 +2,9 @@
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Calculyator_Trchanova.App">
-
-    <!-- Глобальные ресурсы и стили приложения -->
     <Application.Resources>
         <ResourceDictionary>
-
-            <!-- Основные цвета приложения в зеленой гамме -->
-            <Color x:Key="Primary">#4CAF50</Color>
-            <Color x:Key="PrimaryDark">#2E7D32</Color>
-            <Color x:Key="PrimaryLight">#C8E6C9</Color>
-            <Color x:Key="Background">#F0F8F0</Color>
-
-            <!-- Стиль для кнопок -->
-            <Style TargetType="Button">
-                <Setter Property="TextColor" Value="White"/>
-                <Setter Property="BackgroundColor" Value="{StaticResource Primary}"/>
-                <Setter Property="CornerRadius" Value="8"/>
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="HeightRequest" Value="50"/>
-                <!-- Состояния кнопки -->
-                <Setter Property="VisualStateManager.VisualStateGroups">
-                    <VisualStateGroupList>
-                        <VisualStateGroup x:Name="CommonStates">
-                            <VisualState x:Name="Normal">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
-                                </VisualState.Setters>
-                            </VisualState>
-                            <VisualState x:Name="Disabled">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="#B0BEC5" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-                </Setter>
-            </Style>
-
-            <!-- Стиль для Entry (полей ввода) -->
-            <Style TargetType="Entry">
-                <Setter Property="BackgroundColor" Value="White"/>
-                <Setter Property="TextColor" Value="#333333"/>
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="HeightRequest" Value="45"/>
-            </Style>
-
-            <!-- Стиль для Picker -->
-            <Style TargetType="Picker">
-                <Setter Property="BackgroundColor" Value="White"/>
-                <Setter Property="TextColor" Value="#333333"/>
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="HeightRequest" Value="45"/>
-            </Style>
-
+            <!-- CSS-стили теперь подключены на каждой странице -->
         </ResourceDictionary>
     </Application.Resources>
-
 </Application>

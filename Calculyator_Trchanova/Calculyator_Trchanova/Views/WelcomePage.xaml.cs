@@ -1,17 +1,15 @@
 ﻿using Xamarin.Forms;
-using Calculyator_Trchanova.ViewModels;
 using System.IO;
 using System.Reflection;
 using Xamarin.Forms.StyleSheets;
 
 namespace Calculyator_Trchanova.Views
 {
-    public partial class CreditPage : ContentPage
+    public partial class WelcomePage : ContentPage
     {
-        public CreditPage()
+        public WelcomePage()
         {
             InitializeComponent();
-            BindingContext = new CreditViewModel();
             LoadCssStyles();
         }
 
@@ -19,7 +17,7 @@ namespace Calculyator_Trchanova.Views
         {
             try
             {
-                var assembly = typeof(CreditPage).GetTypeInfo().Assembly;
+                var assembly = typeof(WelcomePage).GetTypeInfo().Assembly;
                 using (var stream = assembly.GetManifestResourceStream("Calculyator_Trchanova.mystyles.css"))
                 {
                     if (stream != null)
@@ -36,6 +34,22 @@ namespace Calculyator_Trchanova.Views
             {
                 System.Diagnostics.Debug.WriteLine($"Ошибка загрузки CSS: {ex.Message}");
             }
+        }
+
+        private async void OnSignInClicked(object sender, System.EventArgs e)
+        {
+            string surname = SurnameEntry.Text?.Trim();
+
+            if (string.IsNullOrWhiteSpace(surname))
+            {
+                ErrorLabel.Text = "Пожалуйста, введите вашу фамилию";
+                ErrorLabel.IsVisible = true;
+                return;
+            }
+
+            ErrorLabel.IsVisible = false;
+            var mainPage = new MainTabbedPage(surname);
+            await Navigation.PushAsync(mainPage);
         }
     }
 }

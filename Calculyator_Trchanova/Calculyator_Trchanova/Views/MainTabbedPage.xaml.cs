@@ -1,17 +1,16 @@
 ﻿using Xamarin.Forms;
-using Calculyator_Trchanova.ViewModels;
 using System.IO;
 using System.Reflection;
 using Xamarin.Forms.StyleSheets;
 
 namespace Calculyator_Trchanova.Views
 {
-    public partial class CreditPage : ContentPage
+    public partial class MainTabbedPage : TabbedPage
     {
-        public CreditPage()
+        public MainTabbedPage(string surname)
         {
             InitializeComponent();
-            BindingContext = new CreditViewModel();
+            this.Title = $"Добро пожаловать, {surname}!";
             LoadCssStyles();
         }
 
@@ -19,7 +18,7 @@ namespace Calculyator_Trchanova.Views
         {
             try
             {
-                var assembly = typeof(CreditPage).GetTypeInfo().Assembly;
+                var assembly = typeof(MainTabbedPage).GetTypeInfo().Assembly;
                 using (var stream = assembly.GetManifestResourceStream("Calculyator_Trchanova.mystyles.css"))
                 {
                     if (stream != null)
